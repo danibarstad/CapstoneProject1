@@ -49,19 +49,20 @@ def main():
     print('<------------------------------>')
     print()
 
+    turn = True
     while main.hp > 0 and villain.hp > 0:
-        turn = True
+        # turn = True
 
-        hitPoints(main, villain)            # display hit points
+        hitPoints(main, villain)    # display hit points
 
-        playerTurn = menu(main, villain)    # show menu
         while turn:
+            playerTurn = menu(main, villain)    # show menu
             if playerTurn == 1:
-                fight(main, villain)        # call fight function
-                turn = False
+                turn = fight(main, villain, turn) # call fight function
             elif playerTurn == 2:
-                tauntFun(main)              # call taunt function
-                turn = False
+                turn = tauntFun(main, villain, turn)    # call taunt function
+            print('*------------------------------*')
+            print()
 
         hitPoints(main, villain)
 
@@ -70,11 +71,11 @@ def main():
             villainTurn = random.randint(1, 2)
             print(villain.name, '\'s turn!', sep='')
             if villainTurn == 1:
-                fight(villain, main)        
-                turn = True
+                turn = fight(villain, main, turn)
             elif villainTurn == 2:
-                tauntFun(villain)
-                turn = True
+                turn = tauntFun(villain, main, turn)
+            print('*------------------------------*')
+            print()
 
     winner(main, villain)
 
@@ -101,17 +102,41 @@ def menu(m, v):
 def hitPoints(m, v):
     print('You:', m.name, 'HP:', m.hp)
     print('Villain:', v.name, 'HP:', v.hp)
-
-# funtion for when a player taunts
-def tauntFun(player):
-    print(player.name, ': ', player.taunt, sep='')
     print()
 
-# fight function for whoever when a player attacks
-def fight(attacking, defending):
+# funtion for when a player taunts
+def tauntFun(taunting, defending, turn):
+    print(taunting.name, ': ', taunting.taunt, sep='')
+    print()
+
+    r = random.randint(1, 2)    # create a random number of either 1 or 2
+    if r == 1:  # if 1, opponent skips their next turn
+        print(defending.name, 'was intimidated!')
+        print('TURN SKIPPED')
+        print()
+
+        return turn
+    elif r == 2:    # if 2, turns continue as normal
+        print(defending.name, 'felt nothing!')
+        print()
+
+        if turn == False:
+            return True
+        else:
+            return False
+
+# fight function for when a player attacks
+def fight(attacking, defending, turn):
     print(attacking.name, 'attacked!')
     defending.hp -= attacking.atk.damage
     print()
+
+    # change turns
+    if turn:
+        return False
+    else:
+        return True
+    
 
 # function that displays if the player has won or lost
 def winner(m, v):
