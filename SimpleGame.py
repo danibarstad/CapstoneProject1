@@ -58,9 +58,12 @@ def main():
         while turn:
             playerTurn = menu(main, villain)    # show menu
             if playerTurn == 1:
-                turn = fight(main, villain, turn) # call fight function
+                 fight(main, villain) # call fight function
+                 turn = not turn 
             elif playerTurn == 2:
-                turn = tauntFun(main, villain, turn)    # call taunt function
+                skipped = tauntFun(main, villain)    # call taunt function
+                if not skipped:
+                    turn = not turn  
             print('*------------------------------*')
             print()
 
@@ -71,9 +74,9 @@ def main():
             villainTurn = random.randint(1, 2)
             print(villain.name, '\'s turn!', sep='')
             if villainTurn == 1:
-                turn = fight(villain, main, turn)
+                turn = fight(villain, main)
             elif villainTurn == 2:
-                turn = tauntFun(villain, main, turn)
+                turn = tauntFun(villain, main)
             print('*------------------------------*')
             print()
 
@@ -105,7 +108,7 @@ def hitPoints(m, v):
     print()
 
 # funtion for when a player taunts
-def tauntFun(taunting, defending, turn):
+def tauntFun(taunting, defending):
     print(taunting.name, ': ', taunting.taunt, sep='')
     print()
 
@@ -115,27 +118,21 @@ def tauntFun(taunting, defending, turn):
         print('TURN SKIPPED')
         print()
 
-        return turn
+        return 'skipped'
+
     elif r == 2:    # if 2, turns continue as normal
         print(defending.name, 'felt nothing!')
         print()
 
-        if turn == False:
-            return True
-        else:
-            return False
+
 
 # fight function for when a player attacks
-def fight(attacking, defending, turn):
+def fight(attacking, defending):
     print(attacking.name, 'attacked!')
     defending.hp -= attacking.atk.damage
     print()
 
-    # change turns
-    if turn:
-        return False
-    else:
-        return True
+
     
 
 # function that displays if the player has won or lost
