@@ -9,56 +9,37 @@
 #                                               #
 # ********************************************* #
 
-from dataclasses import dataclass
+
+
+from character import Character
+from attack import Attack
 import random
+
 
 # global variable for each character's hit points
 HEALTH = 10
 
-# class a character's attack
-@dataclass
-class Attack:
-    name: str
-    damage: int
-
-# class for creating a character
-@dataclass
-class Character:
-    name: str
-    hp: int
-    atk: Attack
-    taunt: str      # flavor text that a character says when they taunt
-    defeat: str     # flavor text that a character says when they are defeated
-
 def main():
 
-    # creating attacks
-    fist = Attack('Double Fist Attack', 7)
-    serpent = Attack('Spiral Serpent Strike', 4)
+    fist = get_attack('Double Fist Attack', 7)
+    serpent = get_attack('Spiral Serpent Strike', 4)
 
-    # creating the characters
-    main = Character('Secret-Man', HEALTH, fist, '\'You cannot defeat me!\'', '\'I have been defeated!\'')
-    villain = Character('Sharkakhan', HEALTH, serpent, '\'Daikaiju Die!\'', '\'Farewell, Monster Island\'')
+    main = get_character('Secret-Man', HEALTH, fist, '\'You cannot defeat me!\'', '\'I have been defeated!\'')
+    villain = get_character('Sharkakhan', HEALTH, serpent, '\'Daikaiju Die!\'', '\'Farewell, Monster Island\'')
 
+    story(main, villain)
 
-    # displays the text telling the story of the game
-    print()
-    print(main.name, 'was attempting to escape from Nebula M Spacehunter!')
-    print('But he was stopped by the evil ', villain.name, '!', sep='')
-    print('This is... SHOWDOWN IN SHINJUKU!')
-    print('<------------------------------>')
-    print()
 
     turn = True
     while main.hp > 0 and villain.hp > 0:
         # turn = True
 
-        hitPoints(main, villain)    # display hit points
+        hitPoints(main, villain)                        # display hit points
 
         while turn:
-            playerTurn = menu(main, villain)    # show menu
+            playerTurn = menu(main, villain)            # show menu
             if playerTurn == 1:
-                turn = fight(main, villain, turn) # call fight function
+                turn = fight(main, villain, turn)       # call fight function
             elif playerTurn == 2:
                 turn = tauntFun(main, villain, turn)    # call taunt function
             print('*------------------------------*')
@@ -80,6 +61,30 @@ def main():
     winner(main, villain)
 
 
+
+def get_attack(name, hit):
+    # Create attack
+    return Attack(name, hit)
+
+
+
+def get_character(name, health, attack, taunt, defeat):
+    # Create characters
+    return Character(name, health, attack, taunt, defeat)
+
+
+
+def story(main, villain):
+    # displays the text telling the story of the game
+    print()
+    print(main.name, 'was attempting to escape from Nebula M Spacehunter!')
+    print('But he was stopped by the evil ', villain.name, '!', sep='')
+    print('This is... SHOWDOWN IN SHINJUKU!')
+    print('<------------------------------>')
+    print()
+
+
+
 # menu function for the player to choose their move
 def menu(m, v):
     print('Press 1 to attack!\nPress 2 to taunt!\n')
@@ -98,11 +103,15 @@ def menu(m, v):
     
     return move
 
+
+
 # displays each character and their current health
 def hitPoints(m, v):
     print('You:', m.name, 'HP:', m.hp)
     print('Villain:', v.name, 'HP:', v.hp)
     print()
+
+
 
 # funtion for when a player taunts
 def tauntFun(taunting, defending, turn):
@@ -125,6 +134,8 @@ def tauntFun(taunting, defending, turn):
         else:
             return False
 
+
+
 # fight function for when a player attacks
 def fight(attacking, defending, turn):
     print(attacking.name, 'attacked!')
@@ -136,6 +147,7 @@ def fight(attacking, defending, turn):
         return False
     else:
         return True
+
     
 
 # function that displays if the player has won or lost
@@ -144,5 +156,7 @@ def winner(m, v):
         print('YOU WON!')
     elif m.hp < v.hp:
         print('YOU LOST!')
+
+
 
 main()
