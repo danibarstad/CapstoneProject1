@@ -5,7 +5,7 @@ a simple text-based adventure game.
 are lifted from the lore of the psychedelic surf-rock band DAIKAIJU
 https://daikaiju.bandcamp.com/album/phase-2 )*
 
-SHOWDOWN IN SHINJUKU is a small, simple text-based adventure game.
+**SHOWDOWN IN SHINJUKU** is a small, simple text-based adventure game.
 
 You control **SECRET-MAN**.
 The villain is **SHARKAKHAN**.
