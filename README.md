@@ -1,7 +1,7 @@
 # Showdown In Shinjuku!
 a simple text-based fighting game.
 
-*(character names, attack names, flavor text, etc 
+Character names, attack names, flavor text, etc 
 are lifted from the lore of the psychedelic surf-rock band [DAIKAIJU](https://daikaiju.bandcamp.com/album/phase-2)
 
 **SHOWDOWN IN SHINJUKU** is a small, simple text-based adventure game.
